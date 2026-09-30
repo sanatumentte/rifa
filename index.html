@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gran Rifa Solidaria</title>
+<meta name="description" content="Gran Rifa Solidaria: gana $500.000. Escoge tu número de 00 a 99. Sorteo el 16 de octubre.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--card:#f6ebe5;--white:#fff;--ink:#4a3125;--brown:#8a5a44;--gray:#b8b8b8;--line:#5c4a42;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0 auto;background:var(--bg);color:var(--ink);font-family:Georgia,serif;padding:14px 16px 130px;max-width:520px}
+.head{position:relative;padding:0 46px}
+.head svg{position:absolute;top:0;width:64px;height:auto}
+.head .l{left:-8px}.head .r{right:-8px;transform:scaleX(-1)}
+h1{font-family:Fraunces,Georgia,serif;font-weight:800;font-size:clamp(34px,10vw,46px);line-height:.95;text-align:center;margin:8px 0 12px}
+h1 span{color:var(--brown);display:block}
+.pill{background:var(--card);border-radius:22px;padding:12px 16px;text-align:center;margin:10px 0}
+.prize{font-size:30px;font-family:Fraunces,Georgia,serif}
+.card{background:var(--card);border-radius:24px;padding:14px;margin-top:12px}
+.hint{text-align:center;font-size:14px;margin:10px 0 0}
+.grid{display:grid;grid-template-columns:repeat(10,1fr);border:2px solid var(--line);background:var(--white)}
+.n{aspect-ratio:1;border:1px solid var(--line);background:var(--white);color:var(--ink);font:inherit;font-size:clamp(11px,3.4vw,15px);padding:0;cursor:pointer}
+.n.res{background:var(--gray);cursor:not-allowed;color:#222}
+.n.sel{background:var(--brown);color:#fff;font-weight:700}
+.grid.loading{opacity:.5;pointer-events:none}
+.aviso{background:#fff3f0;border:1px solid #d9a79a;border-radius:14px;padding:10px;font-size:14px;margin-top:10px;text-align:center}
+.info{text-align:center;font-size:18px;margin:14px 0 4px}
+.info b{font-family:Fraunces,Georgia,serif}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--white);border-top:2px solid var(--brown);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));max-width:520px;margin:auto}
+.bar .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bar small{display:block;opacity:.8;word-break:break-word}
+.cta{background:var(--brown);color:#fff;border:0;border-radius:14px;padding:13px 18px;font:inherit;font-weight:700;font-size:16px;cursor:pointer}
+.cta:disabled{opacity:.4;cursor:default}
+.alt{background:transparent;color:var(--ink);border:2px solid var(--brown);border-radius:12px;padding:8px 12px;font:inherit;cursor:pointer}
+dialog{border:0;border-radius:22px;background:var(--white);color:var(--ink);padding:20px;max-width:440px;width:calc(100% - 28px);max-height:92vh;overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog h2{margin:0 0 6px;font-family:Fraunces,Georgia,serif}
+ol{padding-left:20px;line-height:1.5}
+.big{background:var(--card);border-radius:14px;padding:12px;text-align:center;font-size:22px;font-family:Fraunces,Georgia,serif;margin:8px 0}
+.warn{font-size:13px;opacity:.85;margin-top:10px}
+a.cta{display:block;text-align:center;text-decoration:none;margin-top:12px}
+label{display:block;margin-top:10px;font-size:15px}
+input{font:inherit;width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--white);color:var(--ink);margin:4px 0 0}
+input.bad{border-color:#b3261e;background:#fff6f5}
+.err{color:#b3261e;font-size:14px;min-height:18px;margin-top:8px}
+.full{width:100%;margin-top:10px}
+.apps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+.app{display:block;text-align:center;text-decoration:none;color:#fff;border-radius:12px;padding:10px 2px;font-weight:700;font-size:13px;overflow-wrap:anywhere}
+.app.nequi{background:#200020}.app.davi{background:#e1111c}.app.nu{background:#820ad1}
+</style>
+</head>
+<body>
+<div class="head">
+<svg class="l" viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#a5644a" stroke-width="2" fill="none"><path d="M40 72C38 48 30 26 12 8"/><path d="M42 72C44 50 54 34 70 22"/><path d="M40 72C40 52 38 34 40 14"/></g><g fill="#dfbfa9"><ellipse cx="14" cy="14" rx="5" ry="11" transform="rotate(-40 14 14)"/><ellipse cx="24" cy="30" rx="4" ry="9" transform="rotate(-30 24 30)"/><ellipse cx="66" cy="26" rx="5" ry="10" transform="rotate(40 66 26)"/><ellipse cx="41" cy="18" rx="4" ry="10"/></g><path d="M28 72h24c6 8 10 20 6 36-2 6-8 8-14 8h-8c-6 0-12-2-14-8-4-16 0-28 6-36z" fill="#8a5a44"/></svg>
+<svg class="r" viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#a5644a" stroke-width="2" fill="none"><path d="M40 72C38 48 30 26 12 8"/><path d="M42 72C44 50 54 34 70 22"/><path d="M40 72C40 52 38 34 40 14"/></g><g fill="#dfbfa9"><ellipse cx="14" cy="14" rx="5" ry="11" transform="rotate(-40 14 14)"/><ellipse cx="24" cy="30" rx="4" ry="9" transform="rotate(-30 24 30)"/><ellipse cx="66" cy="26" rx="5" ry="10" transform="rotate(40 66 26)"/><ellipse cx="41" cy="18" rx="4" ry="10"/></g><path d="M28 72h24c6 8 10 20 6 36-2 6-8 8-14 8h-8c-6 0-12-2-14-8-4-16 0-28 6-36z" fill="#8a5a44"/></svg>
+<h1>Gran Rifa<span>solidaria</span></h1></div>
+<div class="pill">Ayúdame a recuperar mis documentos.<br>Tu apoyo será de gran ayuda</div>
+<div class="pill"><div>GÁNATE</div><div class="prize">¡$500.000!</div></div>
+<div class="card">
+<div class="grid loading" id="grid"></div>
+<p class="hint" id="hint">Cargando números…</p>
+<div class="aviso" id="aviso" hidden>No pudimos cargar los números ocupados. Revisa tu conexión.<br><button class="alt" id="retry" style="margin-top:8px">Reintentar</button></div>
+</div>
+<div class="info"><b>Se sortea el 16 de octubre</b><br>Valor del número: $10.000</div>
+<p class="warn" style="text-align:center">Tu número queda asegurado solo cuando se confirma tu pago.</p>
+
+<div class="bar"><div class="row">
+<div><b id="cnt">0 números</b><small id="sel">Toca los números blancos que quieras</small></div>
+<button class="cta" id="go" disabled>Continuar</button></div></div>
+
+<dialog id="dlgDatos">
+<h2>Tus datos</h2>
+<div class="big" id="dTotal"></div>
+<p style="margin:0;text-align:center" id="dNums"></p>
+<form id="form" novalidate>
+<label>Nombre completo<input id="nm" autocomplete="name" placeholder="Ej: María Pérez" maxlength="80"></label>
+<label>Teléfono (celular, 10 dígitos)<input id="tel" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="Ej: 3001234567" maxlength="14"></label>
+<label>Correo (opcional)<input id="mail" type="email" inputmode="email" autocomplete="email" placeholder="Ej: maria@gmail.com" maxlength="80"></label>
+<div class="err" id="err"></div>
+<button class="cta full" id="send" type="submit">Apartar mis números</button>
+</form>
+<button class="alt full" id="close1" type="button">Volver</button>
+<p class="warn">Tus datos solo los ve la organizadora de la rifa para contactarte.</p>
+</dialog>
+
+<dialog id="dlgPago">
+<h2>¡Listo! Ahora paga para asegurarlos</h2>
+<p style="margin:0">Apartamos tus números <b id="pNums"></b>. Quedan separados cuando se confirme tu pago.</p>
+<div class="big" id="pTotal"></div>
+<ol>
+<li>Envía el valor exacto por <b>Nequi, Daviplata o Nu</b> al número:
+<div class="big">318 682 9930</div>
+<button class="alt" id="copy" style="width:100%" type="button">Copiar número</button>
+<div class="apps">
+<a class="app nequi" href="https://www.nequi.com.co/" data-pkg="com.nequi.MobileApp" target="_blank" rel="noopener">Nequi</a>
+<a class="app davi" href="https://www.daviplata.com/" data-pkg="com.davivienda.daviplataapp" target="_blank" rel="noopener">Daviplata</a>
+<a class="app nu" href="https://nu.com.co/" data-pkg="com.nu.production" target="_blank" rel="noopener">Nu</a>
+</div>
+<p class="warn" style="margin-top:4px;text-align:center">Toca tu app para abrirla: el número queda copiado, solo pégalo al enviar.</p></li>
+<li>Envía el comprobante por WhatsApp (el mensaje ya va escrito).</li>
+<li>Cuando se confirme tu pago, tus números quedan pagados.</li></ol>
+<a class="cta" id="wa" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>
+<button class="alt full" id="close2" type="button">Cerrar</button>
+</dialog>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbwq6QNHsAo-tYx4VKWtvZKo4cCeqsf8BuRHs2dXpj5AEaZkEwmTl8YTB7mYq-k6PVGk-A/exec";
+const PRICE = 10000, PHONE = "573186829930", PHONE_SHOW = "3186829930";
+
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, "0");
+const fmt = n => "$" + n.toLocaleString("es-CO");
+const chosen = new Set();
+let ocupados = new Set();
+let enviando = false;
+
+const list = () => [...chosen].sort((a, b) => a - b).map(pad);
+
+function renderGrid() {
+  [...chosen].forEach(n => { if (ocupados.has(n)) chosen.delete(n); });
+  const g = $("grid"); g.innerHTML = "";
+  for (let i = 0; i < 100; i++) {
+    const b = document.createElement("button");
+    b.className = "n"; b.type = "button"; b.textContent = pad(i);
+    if (ocupados.has(i)) { b.classList.add("res"); b.disabled = true; b.setAttribute("aria-label", pad(i) + " ocupado"); }
+    else {
+      if (chosen.has(i)) b.classList.add("sel");
+      b.setAttribute("aria-pressed", chosen.has(i));
+      b.onclick = () => {
+        chosen.has(i) ? chosen.delete(i) : chosen.add(i);
+        b.classList.toggle("sel"); b.setAttribute("aria-pressed", chosen.has(i));
+        updateBar();
+      };
+    }
+    g.appendChild(b);
+  }
+  updateBar();
+}
+
+function updateBar() {
+  const n = chosen.size;
+  $("cnt").textContent = n + (n == 1 ? " número" : " números") + (n ? " · " + fmt(n * PRICE) : "");
+  $("sel").textContent = n ? list().join(", ") : "Toca los números blancos que quieras";
+  $("go").disabled = !n || n > 30;
+  $("go").textContent = n > 30 ? "Máximo 30" : "Continuar";
+}
+
+async function cargar() {
+  $("grid").classList.add("loading"); $("aviso").hidden = true; $("hint").textContent = "Cargando números…";
+  try {
+    const r = await fetch(API + "?t=" + Date.now(), { cache: "no-store" });
+    const d = await r.json();
+    ocupados = new Set((d.ocupados || []).map(Number));
+    $("hint").textContent = "Toca los números blancos para escogerlos. Los grises ya están ocupados.";
+    $("grid").classList.remove("loading");
+    renderGrid();
+    return true;
+  } catch (e) {
+    $("hint").textContent = "";
+    $("aviso").hidden = false;
+    return false;
+  }
+}
+
+function marcar(el, ok) { el.classList.toggle("bad", !ok); return ok; }
+
+function validar() {
+  const nombre = $("nm").value.replace(/\s+/g, " ").trim();
+  const tel = $("tel").value.replace(/\D/g, "").replace(/^57(?=3\d{9}$)/, "");
+  const correo = $("mail").value.trim();
+  const errs = [];
+  if (!marcar($("nm"), nombre.split(" ").filter(p => p.length > 1).length >= 2)) errs.push("Escribe tu nombre y apellido.");
+  if (!marcar($("tel"), /^3\d{9}$/.test(tel))) errs.push("El teléfono debe ser un celular de 10 dígitos (empieza por 3).");
+  if (!marcar($("mail"), !correo || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo))) errs.push("Revisa el correo o déjalo vacío.");
+  return { nombre, tel, correo, errs };
+}
+
+$("go").onclick = () => {
+  $("dTotal").textContent = fmt(chosen.size * PRICE);
+  $("dNums").textContent = "Números: " + list().join(", ");
+  $("err").textContent = "";
+  $("dlgDatos").showModal();
+};
+
+$("form").onsubmit = async ev => {
+  ev.preventDefault();
+  if (enviando) return;
+  const v = validar();
+  if (v.errs.length) { $("err").textContent = v.errs.join(" "); return; }
+  enviando = true; $("send").disabled = true; $("send").textContent = "Apartando…"; $("err").textContent = "";
+  const numeros = [...chosen].sort((a, b) => a - b);
+  try {
+    const r = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ nombre: v.nombre, telefono: v.tel, correo: v.correo, numeros })
+    });
+    const d = await r.json();
+    if (d.ok) {
+      $("dlgDatos").close();
+      mostrarPago(v.nombre, numeros);
+      chosen.clear();
+      cargar();
+    } else if (d.error === "ocupados") {
+      $("err").textContent = "Alguien acaba de apartar: " + d.ocupados.map(pad).join(", ") + ". Los quitamos de tu selección; escoge otros.";
+      await cargar();
+      if (!chosen.size) setTimeout(() => $("dlgDatos").close(), 2500);
+      else { $("dTotal").textContent = fmt(chosen.size * PRICE); $("dNums").textContent = "Números: " + list().join(", "); }
+    } else if (d.error === "datos") {
+      $("err").textContent = "Revisa tus datos: nombre y apellido, celular de 10 dígitos y máximo 30 números.";
+    } else {
+      $("err").textContent = "Hay mucha gente apartando. Intenta de nuevo en un momento.";
+    }
+  } catch (e) {
+    $("err").textContent = "No pudimos enviar tu solicitud. Revisa tu conexión e intenta de nuevo.";
+  } finally {
+    enviando = false; $("send").disabled = false; $("send").textContent = "Apartar mis números";
+  }
+};
+
+function mostrarPago(nombre, numeros) {
+  const nums = numeros.map(pad).join(", "), total = fmt(numeros.length * PRICE);
+  $("pNums").textContent = nums;
+  $("pTotal").textContent = total;
+  const msg = `Hola! Soy ${nombre}. Quiero participar en la Gran Rifa Solidaria con los números ${nums}. Total: ${total}. Adjunto el comprobante de pago.`;
+  $("wa").href = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+  $("copy").textContent = "Copiar número";
+  $("dlgPago").showModal();
+}
+
+$("copy").onclick = async e => {
+  try { await navigator.clipboard.writeText(PHONE_SHOW); e.target.textContent = "¡Copiado!"; }
+  catch (_) { e.target.textContent = PHONE_SHOW; }
+};
+// Botones de las apps de pago: copian el número y abren la app (en Android) o su página oficial
+const esAndroid = /Android/i.test(navigator.userAgent);
+document.querySelectorAll(".app").forEach(a => {
+  if (esAndroid) a.href = `intent://#Intent;package=${a.dataset.pkg};S.browser_fallback_url=${encodeURIComponent(a.href)};end`;
+  a.addEventListener("click", () => { try { navigator.clipboard.writeText(PHONE_SHOW); } catch (_) {} $("copy").textContent = "¡Número copiado!"; });
+});
+$("close1").onclick = () => $("dlgDatos").close();
+$("close2").onclick = () => $("dlgPago").close();
+$("retry").onclick = cargar;
+["nm", "tel", "mail"].forEach(id => $(id).addEventListener("input", () => $(id).classList.remove("bad")));
+
+renderGrid();
+cargar();
+</script>
+</body>
+</html>
