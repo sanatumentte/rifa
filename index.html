@@ -23,8 +23,7 @@ h1 span{color:var(--brown);display:block}
 .n{aspect-ratio:1;border:1px solid var(--line);background:var(--white);color:var(--ink);font:inherit;font-size:clamp(11px,3.4vw,15px);padding:0;cursor:pointer}
 .n.res{background:var(--gray);cursor:not-allowed;color:#222}
 .n.sel{background:var(--brown);color:#fff;font-weight:700}
-.grid.loading{opacity:.5;pointer-events:none}
-.aviso{background:#fff3f0;border:1px solid #d9a79a;border-radius:14px;padding:10px;font-size:14px;margin-top:10px;text-align:center}
+.grid.loading{opacity:.5;pointer-events:none}.aviso{background:#fff3f0;border:1px solid #d9a79a;border-radius:14px;padding:10px;font-size:14px;margin-top:10px;text-align:center}
 .info{text-align:center;font-size:18px;margin:14px 0 4px}
 .info b{font-family:Fraunces,Georgia,serif}
 .bar{position:fixed;left:0;right:0;bottom:0;background:var(--white);border-top:2px solid var(--brown);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));max-width:520px;margin:auto}
@@ -62,7 +61,7 @@ input.bad{border-color:#b3261e;background:#fff6f5}
 <p class="hint" id="hint">Cargando números…</p>
 <div class="aviso" id="aviso" hidden>No pudimos cargar los números ocupados. Revisa tu conexión.<br><button class="alt" id="retry" style="margin-top:8px">Reintentar</button></div>
 </div>
-<div class="info"><b>Se sortea el 16 de octubre</b><br>Valor del número: $10.000</div>
+<div class="info"><b>Se sortea el 16 de octubre</b><br>Juega con las dos últimas cifras de la <b>Lotería de Risaralda</b><br>Valor del número: $10.000</div>
 <p class="warn" style="text-align:center">Tu número queda asegurado solo cuando se confirma tu pago.</p>
 
 <div class="bar"><div class="row">
@@ -75,7 +74,7 @@ input.bad{border-color:#b3261e;background:#fff6f5}
 <p style="margin:0;text-align:center" id="dNums"></p>
 <form id="form" novalidate>
 <label>Nombre completo<input id="nm" autocomplete="name" placeholder="Ej: María Pérez" maxlength="80"></label>
-<label>Teléfono (celular, 10 dígitos)<input id="tel" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="Ej: 3001234567" maxlength="14"></label>
+<label>WhatsApp (si no es de Colombia, con indicativo: +34…)<input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 3001234567 o +34 612 345 678" maxlength="20"></label>
 <label>Correo (opcional)<input id="mail" type="email" inputmode="email" autocomplete="email" placeholder="Ej: maria@gmail.com" maxlength="80"></label>
 <div class="err" id="err"></div>
 <button class="cta full" id="send" type="submit">Apartar mis números</button>
@@ -167,11 +166,14 @@ function marcar(el, ok) { el.classList.toggle("bad", !ok); return ok; }
 
 function validar() {
   const nombre = $("nm").value.replace(/\s+/g, " ").trim();
-  const tel = $("tel").value.replace(/\D/g, "").replace(/^57(?=3\d{9}$)/, "");
+  // Colombia: 10 dígitos que empiezan por 3 → se le agrega 57. Otros países: con indicativo (+34…, 0034…)
+  const crudo = $("tel").value.trim();
+  let tel = crudo.replace(/\D/g, "").replace(/^00/, "");
+  if (/^3\d{9}$/.test(tel) && !crudo.startsWith("+")) tel = "57" + tel;
   const correo = $("mail").value.trim();
   const errs = [];
   if (!marcar($("nm"), nombre.split(" ").filter(p => p.length > 1).length >= 2)) errs.push("Escribe tu nombre y apellido.");
-  if (!marcar($("tel"), /^3\d{9}$/.test(tel))) errs.push("El teléfono debe ser un celular de 10 dígitos (empieza por 3).");
+  if (!marcar($("tel"), /^[1-9]\d{9,14}$/.test(tel))) errs.push("Revisa tu WhatsApp: celular de Colombia (10 dígitos) o número con indicativo, ej: +34 612 345 678.");
   if (!marcar($("mail"), !correo || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo))) errs.push("Revisa el correo o déjalo vacío.");
   return { nombre, tel, correo, errs };
 }
@@ -208,7 +210,7 @@ $("form").onsubmit = async ev => {
       if (!chosen.size) setTimeout(() => $("dlgDatos").close(), 2500);
       else { $("dTotal").textContent = fmt(chosen.size * PRICE); $("dNums").textContent = "Números: " + list().join(", "); }
     } else if (d.error === "datos") {
-      $("err").textContent = "Revisa tus datos: nombre y apellido, celular de 10 dígitos y máximo 30 números.";
+      $("err").textContent = "Revisa tus datos: nombre y apellido, WhatsApp válido y máximo 30 números.";
     } else {
       $("err").textContent = "Hay mucha gente apartando. Intenta de nuevo en un momento.";
     }
